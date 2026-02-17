@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 
 import './App.css'
 
@@ -7,11 +7,12 @@ const numbers = "0123456789";
 const symbols = "!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~";
 
 function App() {
-  const [name, setName] = useState("");
+  const nameRef = useRef();
+  const specializationRef = useRef();
+  const experienceYearsRef = useRef();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [specialization, setSpecialization] = useState("");
-  const [experienceYears, setExperienceYears] = useState("");
   const [description, setDescription] = useState("");
 
   const isUsernameValid = useMemo(() => {
@@ -38,6 +39,10 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const name = nameRef.current.value;
+    const specialization = specializationRef.current.value;
+    const experienceYears = experienceYearsRef.current.value
 
     if (
       !name.trim() ||
@@ -71,9 +76,8 @@ function App() {
 
         <input
           type='text'
-          value={name}
+          ref={nameRef}
           placeholder='Nome completo'
-          onChange={(e) => setName(e.target.value)}
         />
 
         <input
@@ -101,9 +105,9 @@ function App() {
         )}
 
         <select
-          value={specialization}
-          onChange={(e) => setSpecialization(e.target.value)}
+          ref={specializationRef}
         >
+          <option>Seleziona</option>
           <option>Full Stack</option>
           <option>Frontend</option>
           <option>Backend</option>
@@ -111,9 +115,8 @@ function App() {
 
         <input
           type='number'
-          value={experienceYears}
+          ref={experienceYearsRef}
           placeholder='Anni di esperienza'
-          onChange={(e) => setExperienceYears(e.target.value)}
         />
 
         <textarea
